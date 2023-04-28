@@ -108,9 +108,6 @@ fixedAtomsFile     ../input/system.pdb
 fixedAtomsCol       B
 }
 
-# Initial velocity from gaussian distribution
-temperature         $temperature
-
 # Thermostat control
 
 langevin            off    ;# langevin thermostat
