@@ -4,7 +4,7 @@
 
 # Job description
 
-# MD- NVT Equilibration with initial minimization         
+# MD- NpzT Equilibration with initial minimization         
 # See User Guide for details:                               
 # https://www.ks.uiuc.edu/Research/namd/2.14/ug/node12.html  
 
@@ -15,6 +15,7 @@
 
 # Set temperature (K) and pressure (bar)
 set temperature    300
+set pressure       1.01325 ;#  in bar -> 1 atm
 
 # Name for output files
 set outputname      MDequil

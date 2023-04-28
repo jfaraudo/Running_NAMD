@@ -8,12 +8,11 @@
 # See User Guide for details:                               
 # https://www.ks.uiuc.edu/Research/namd/2.14/ug/node12.html  
 
-
 ##########################################################################
 # Set variables: CHECK THESE FILE NAMES AND VARIABLE VALUES FOR EVERY JOB
 #########################################################################
 
-# Set temperature (K) and pressure (bar)
+# Set temperature (K) 
 set temperature    300
 
 # Name for output files

@@ -15,6 +15,7 @@
 
 # Set temperature (K) and pressure (bar)
 set temperature    300
+set pressure       1.01325 ;#  in bar -> 1 atm
 
 # Name for output files
 set outputname      MDequil
