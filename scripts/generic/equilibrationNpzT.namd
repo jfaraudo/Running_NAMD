@@ -128,6 +128,19 @@ langevinDamping     1     ;# damping coefficient (gamma) of 1/ps
 langevinTemp        $temperature
 langevinHydrogen    off    ;# don't couple langevin bath to hydrogens
 
+# Constant Pressure Control (variable volume)
+if {$dt > 1} {
+useGroupPressure      yes ;# needed for 2fs steps
+}
+useFlexibleCell       yes ;# no for full liquid box, yes for membrane
+useConstantArea       yes ;# no for full liquid box, maybe for membrane
+
+langevinPiston        on
+langevinPistonTarget  $pressure
+langevinPistonTemp    $temperature
+langevinPistonPeriod  200.
+langevinPistonDecay   100.
+
 ## OUTPUT DATA                                
 #filename for data output
 outputName          $outputname

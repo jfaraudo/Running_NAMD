@@ -4,7 +4,7 @@
 
 # Job description
 
-# MD- NVT Equilibration with initial minimization         
+# MD- NpT Equilibration with initial minimization         
 # See User Guide for details:                               
 # https://www.ks.uiuc.edu/Research/namd/2.14/ug/node12.html  
 
@@ -127,6 +127,17 @@ langevin            on    ;# langevin thermostat
 langevinDamping     1     ;# damping coefficient (gamma) of 1/ps
 langevinTemp        $temperature
 langevinHydrogen    off    ;# don't couple langevin bath to hydrogens
+
+# Constant Pressure Control (variable volume)
+if {$dt > 1} {
+useGroupPressure      yes ;# needed for 2fs steps
+}
+
+langevinPiston        on
+langevinPistonTarget  $pressure
+langevinPistonTemp    $temperature
+langevinPistonPeriod  200.
+langevinPistonDecay   100.
 
 ## OUTPUT DATA                                
 #filename for data output
