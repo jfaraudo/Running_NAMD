@@ -1,4 +1,4 @@
-Generic scripts for equilibrating NAMD simulations in different thermostats:
+Generic scripts for equilibrating NAMD simulations in different ensembles:
 
 NVE: isolated system
 
