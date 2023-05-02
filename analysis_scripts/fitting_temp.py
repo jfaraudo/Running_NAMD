@@ -4,7 +4,7 @@
 # By Jordi Faraudo
 # Based on a program by Alberto Gil
 #
-# Input data: two column file with step number and 
+# Input data: two column file with step number and T in K
 #
 import numpy
 from numpy import sqrt, pi, exp, linspace, loadtxt, power
