@@ -4,10 +4,9 @@ Sample scripts for running MD simulations with NAMD (for equilibration and produ
 
 Python scripts for reading NAMD log files
 
-Instructions on how to install and run NAMD (in catalan):
-https://saco.csic.es/index.php/s/LxZgsfKXN4BYayQ
+Instructions on how to install and run NAMD (in catalan) and Overview about preparing NAMD simulations:
 
-Overview about preparing NAMD simulations:
-https://saco.csic.es/index.php/s/RGcFsigFNZjgrFG
+https://saco.csic.es/index.php/s/iyZYfPgqJEgFR2T
+
 
 
