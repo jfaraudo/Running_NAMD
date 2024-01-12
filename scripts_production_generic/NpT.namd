@@ -18,7 +18,7 @@ set temperature    300
 set pressure       1.01325 ;#  in bar -> 1 atm
 
 # Name for output files
-set outputname      MDequil
+set outputname      MD
 
 #Input files for structure (psf) and coordinates (pdb)
 structure          ../input/system.psf
