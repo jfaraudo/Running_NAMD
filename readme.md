@@ -10,7 +10,7 @@ For an overview about preparing NAMD simulations and instructions on how to inst
 
 https://saco.csic.es/index.php/s/iyZYfPgqJEgFR2T
 
-Useful commands in VMD tK console for NAMD simulations:
+Useful commands in VMD Tk console for NAMD simulations:
 https://saco.csic.es/index.php/s/GyFXEKyd7EFk4dn
 
 
