@@ -1,11 +1,8 @@
 # CHARMM_forcefield
-Files used in our MD simulations with CHARMM forcefield in NAMD
+Files to be used to run MD simulations using CHARMM forcefield in NAMD
 
 parameters (par) and topology (top) files
 
 Updated standard CHARMM files available at
 http://mackerell.umaryland.edu/charmm_ff.shtml#charmm
-
-Files theory
-https://saco.csic.es/index.php/s/wbfnjaGzHxwi5ae
 
