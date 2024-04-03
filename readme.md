@@ -1,4 +1,4 @@
-#Material for NAMD simulations
+# Material for running NAMD simulations
 This repo contains supporting material for NAMD simulations:
 
 - Some of the most common CHARMM ForceField files for use with NAMD
