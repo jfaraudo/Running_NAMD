@@ -1,0 +1,58 @@
+* >>>>>>>>>>>>>  CHARMM Topology for TIP4P/2005 water <<<<<<<<<<
+* >>>>  IMPORTANT NOTE: Adapted to namd conventions <<<<<<<<<<<<
+* 
+* Residue name TIP4 (instead of stadard charmm residue name TP45) to allow recognition as water by VMD/namd 
+* Absence of H1-H2 direct bond as in namd TIP3P ( this bond is included in standard charmm)
+*
+* >>>>>>>>>>>>> by Jordi Faraudo 14-march-2013 <<<<<<<<<<<<<<<<<
+*               All comments to jfaraudo@icmab.es
+*
+*
+*Definition of the model TIP4P-2005
+*J.L.F. Abascal; C. Vega, J. Chem. Phys., 123: 234505 (2005)
+*
+
+BONDS
+!
+!V(bond) = Kb(b - b0)**2
+!
+!Kb: kcal/mole/A**2
+!b0: A
+!
+!atom type Kb          b0
+!
+OT   HT    450.0       0.9572 ! Kb common for TIP models b0 Common to the TIP4P family
+OT   LP    450.0       0.1546 ! b0 for TIP4P/2005
+
+ANGLES
+!
+!V(angle) = Ktheta(Theta - Theta0)**2
+!
+!V(Urey-Bradley) = Kub(S - S0)**2
+!
+!Ktheta: kcal/mole/rad**2
+!Theta0: degrees
+!Kub: kcal/mole/A**2 (Urey-Bradley)
+!S0: A
+!
+!atom types     Ktheta    Theta0   Kub     S0
+!
+HT   OT   HT     55.0     104.52  ! Common for TIP3P and TIP4P families
+
+
+NONBONDED 
+! Standard TIP4P_2005 oxygen vdw parameters
+! Hydrogen vdw parameters from TIP3P as used in charmm. 
+!
+!V(Lennard-Jones) = Eps,i,j[(Rmin,i,j/ri,j)**12 - 2(Rmin,i,j/ri,j)**6]
+!
+!epsilon: kcal/mole, Eps,i,j = sqrt(eps,i * eps,j)
+!Rmin/2: A, Rmin,i,j = Rmin/2,i + Rmin/2,j
+!
+!atom  ignored    epsilon      Rmin/2   ignored   eps,1-4       Rmin/2,1-4
+!
+HT     0.0000  -0.046000     0.224500 ! CHARMM parameters for hydrogen
+OT     0.0000  -0.185200     1.772873 ! TIP4P/2005 OXYGEN PARAMETERS, 
+LP     0.0000   0.000000     0.000000 ! 
+
+END

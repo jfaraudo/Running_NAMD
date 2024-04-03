@@ -1,0 +1,38 @@
+* >>>>>>>>>>>>>  CHARMM Topology for TIP4P/2005 water <<<<<<<<<<
+* >>>>  IMPORTANT NOTE: Adapted to namd conventions <<<<<<<<<<<<
+* 
+* Residue name TIP4 (instead of stadard charmm residue name TP45) to allow recognition as water by VMD/namd 
+* Absence of H1-H2 direct bond as in namd TIP3P ( this bond is included in standard charmm)
+*
+* >>>>>>>>>>>>> by Jordi Faraudo 14-march-2013 <<<<<<<<<<<<<<<<<
+*               Based on previous work by A.C. VilaVerde
+*               All comments to jfaraudo@icmab.es
+*
+*
+*Definition of the model TIP4P-2005
+*J.L.F. Abascal; C. Vega, J. Chem. Phys., 123: 234505 (2005)
+*
+31  1
+
+MASS   1  HT     1.00800 H ! WATER HYDROGEN
+MASS   2  OT    15.99940 O ! WATER OXYGEN
+MASS   3  LP    0.00000  H ! virtual particle for M-site/lone pairs
+
+RESI TIP4         0.000 ! tip4p-2005 water model, generate using noangle nodihedral
+GROUP
+ATOM OH2  OT      0.0
+ATOM H1   HT      0.5564
+ATOM H2   HT      0.5564
+ATOM OM   LP     -1.1128  !warning: ordering in namd is different than in standard CHARMM
+BOND OH2 H1 OH2 H2    ! warning: the H1-H2 bond is not included here following namd usage
+BOND OH2  OM
+ANGLE H1 OH2 H2             ! required
+ACCEPTOR OH2
+!DONOR H1 OH2
+!DONOR H2 OH2
+LONEPAIR bisector OM OH2 H1 H2  distance 0.1546 angle 0.0 dihe 0.0
+IC   H1   OM   *OH2   H2    0.9572   52.26  180.00   52.26   0.9572
+IC   H2   H1    OH2   OM    0.0000    0.00    0.00   52.26   0.15
+PATCHING FIRS NONE LAST NONE
+
+END
