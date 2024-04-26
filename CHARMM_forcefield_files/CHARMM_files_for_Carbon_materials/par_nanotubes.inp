@@ -1,0 +1,34 @@
+* This is a reduced version of the CHARMM22 parameter file for 
+* a nanotube simulation in water
+*
+
+BONDS
+!V(bond) = Kb(b - b0)**2
+!
+!atom type Kb          b0
+CA   CA    305.000     1.3750
+
+ANGLES
+!V(angle) = Ktheta(Theta - Theta0)**2
+!V(Urey-Bradley) = Kub(S - S0)**2
+!
+!atom types     Ktheta    Theta0   Kub     S0
+CA   CA   CA    40.000    120.00   35.00   2.41620
+
+DIHEDRALS
+!V(dihedral) = Kchi(1 + cos(n(chi) - delta))
+!
+!atom types             Kchi    n   delta
+CA   CA   CA   CA       3.1000  2   180.00
+
+
+NONBONDED nbxmod  5 atom cdiel shift vatom vdistance vswitch -
+cutnb 14.0 ctofnb 12.0 ctonnb 10.0 eps 1.0 e14fac 1.0 wmin 1.5 
+!V(Lennard-Jones) = Eps,i,j[(Rmin,i,j/ri,j)**12 - 2(Rmin,i,j/ri,j)**6]
+!
+!atom  ignored    epsilon      Rmin/2
+CA     0.000000  -0.070000     1.992400
+
+HBOND CUTHB 0.5
+
+END
