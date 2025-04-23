@@ -9,12 +9,7 @@ For an overview about preparing NAMD simulations and instructions on how to inst
 
 https://saco.csic.es/index.php/s/iyZYfPgqJEgFR2T
 
-For practical considerations about running MD simulations:
 
-https://computecanada.github.io/molmodsim-md-theory-lesson-novice/
-
-NAMD3 User Guide
-https://www.ks.uiuc.edu/Research/namd/3.0/ug/
 
 
 
