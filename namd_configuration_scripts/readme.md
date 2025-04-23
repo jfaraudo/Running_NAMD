@@ -8,6 +8,7 @@ See NAMD3 User Guide for details:
 https://www.ks.uiuc.edu/Research/namd/3.0/ug/
 
 Also recommended: 
+
 practical considerations about running MD simulations:
 https://computecanada.github.io/molmodsim-md-theory-lesson-novice/
 
