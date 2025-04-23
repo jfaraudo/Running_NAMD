@@ -1,0 +1,157 @@
+################################################################
+## NAMD job                                                   ##
+################################################################
+
+# Job description
+
+# MD- NpzT Equilibration with initial minimization         
+# See User Guide for details:                               
+# https://www.ks.uiuc.edu/Research/namd/2.14/ug/node12.html  
+
+
+##########################################################################
+# Set variables: CHECK THESE FILE NAMES AND VARIABLE VALUES FOR EVERY JOB
+#########################################################################
+
+# Set temperature (K) and pressure (bar)
+set temperature    300
+set pressure       1.01325 ;#  in bar -> 1 atm
+
+# Name for output files
+set outputname      MD
+
+#Input files for structure (psf) and coordinates (pdb)
+structure          ../input/system.psf
+coordinates        ../input/system.pdb
+
+#continue using files from a previous simulation
+set inputname ../equilibration/MDequil
+
+# Input Force Field
+paraTypeCharmm	    on
+parameters          ../input/forcefield1.inp
+parameters          ../input/forcefield2.inp
+
+# Timestep in fs for integration of equations of motion
+set dt 2.0  ;# typical value 2 fs
+
+# Final Simulation time (trajectory length in multiple of dt)
+set sim_time 500000 ;# example 1 ns
+
+# Frequency for output data (multiple of dt)
+set outputfreq 5000 ;# typical value 10 ps
+
+# Move all atoms or maintain atoms fixed in the simulation Yes/No?
+# to move all atoms during simulation:  set fix_selected_atoms 0
+# to fix selected atoms: (atoms with PDB beta-column 1 will not move): set fix_selected_atoms 1
+
+set fix_selected_atoms 0
+
+#--------------------------------------------------------------------------------------------------
+
+#############################################################
+## STANDARD SETTINGS: Revise only if needed                ##
+#############################################################                               
+
+#read data previous run
+binCoordinates     $inputname.restart.coor ;# read coordinates
+binvelocities      $inputname.restart.vel  ;# read velocities
+extendedSystem	   $inputname.restart.xsc  ;# read simulation box
+
+wrapWater           on
+wrapAll             on
+
+## Electrostatics and force field parameters               
+
+# Force-Field Parameters
+exclude             scaled1-4
+1-4scaling          1.0
+cutoff              12.
+switching           on
+switchdist          10.
+pairlistdist        14
+
+# PME (for full-system periodic electrostatics)
+# recommended more than 1 angs per grid
+PME                 yes
+PMEGridSpacing      1.0
+
+## INTEGRATION ALGORITHMS AND THERMODYNAMIC ENSEMBLE     
+
+# Integrator Parameters
+firsttimestep       0
+timestep            $dt
+
+# Use rigid bonds with H depending on dt
+if { $dt > 1 } {
+rigidBonds          all 
+}
+
+# multiple time step
+nonbondedFreq       1   ;# 2fs/step
+fullElectFrequency  2  ;# 4fs/step
+stepspercycle       10
+
+# No initial motion of center of mass 
+COMmotion no
+
+# No external forces so center of mass does not move
+# (supress spurious motion due to PME inaccuracies)
+# This can be employed only when all atoms in system are allowed to move
+# 
+if { $fix_selected_atoms == 0 } {
+zeroMomentum yes
+} else {
+# Fixed Atoms Constraint (set PDB beta-column to 1)
+# If no fixed atoms are present you can comment all fixedAtoms commands
+
+fixedAtoms          on
+fixedAtomsFile     ../input/system.pdb
+fixedAtomsCol       B
+}
+
+# Thermostat control
+
+langevin            on    ;# langevin thermostat
+langevinDamping     1     ;# damping coefficient (gamma) of 1/ps
+langevinTemp        $temperature
+langevinHydrogen    off    ;# don't couple langevin bath to hydrogens
+
+# Constant Pressure Control (variable volume)
+if {$dt > 1} {
+useGroupPressure      yes ;# needed for 2fs steps
+}
+useFlexibleCell       yes ;# no for full liquid box, yes for membrane
+useConstantArea       yes ;# no for full liquid box, maybe for membrane
+
+langevinPiston        on
+langevinPistonTarget  $pressure
+langevinPistonTemp    $temperature
+langevinPistonPeriod  200.
+langevinPistonDecay   100.
+
+## OUTPUT DATA                                
+#filename for data output
+outputName          $outputname
+
+# trajectory output
+dcdfreq             $outputfreq 
+
+# cell size energy and pressure output
+xstFreq             $outputfreq 
+outputEnergies      $outputfreq 
+outputPressure      $outputfreq 
+
+# restart files for continuation of the simulation (10 times less frequent than general output)
+restartfreq         [expr $outputfreq * 10]
+
+#############################################################
+## EXECUTION SCRIPT                                        ##
+#############################################################
+
+# MD simulation run
+run $sim_time
+
+
+
+
