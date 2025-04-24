@@ -1,3 +1,5 @@
+#This code counts number of molecules inside a structure defined by a spherical radius
+#In particular, it was used to count the number of CO2 molecules inside a MOP
 import MDAnalysis as mda
 import pandas as pd
 from matplotlib import pyplot as plt
