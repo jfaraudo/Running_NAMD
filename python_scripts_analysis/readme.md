@@ -7,3 +7,5 @@ It analyses an input file with time series of T generated from NAMD log file (a 
 Comparison with theory requires to know number of degrees of freedom (see .log file)
 
 - count_CO2.py: Example of MDAnalysis program counting the number of CO2 molecules inside a cavity. It is a good example of a case showing how to count the number of molecules or atoms verifying a given condition.
+
+A summary about analysis in MD Simulations can be found [here](https://saco.csic.es/s/yaZBGnDpaPERYsp)
