@@ -24,8 +24,8 @@ set inputname ../equilibration/MDequil
 
 # Input Force Field
 paraTypeCharmm	    on
-parameters          ../input/par_nanotubes.inp
-parameters          ../input/par_water_ions.inp
+parameters          ../input/forcefield1.inp
+parameters          ../input/forcefield2.inp
 
 # Set temperature (K) 
 set temperature    300
