@@ -1,0 +1,187 @@
+################################################################
+## NAMD job                                                   ##
+################################################################
+
+# Job description
+# MD- NVT Production
+
+# See User Guide for details:                                
+# https://www.ks.uiuc.edu/Research/namd/3.0/ug/  
+
+##########################################################################
+# Set variables: CHECK THESE FILE NAMES AND VARIABLE VALUES FOR EVERY JOB
+#########################################################################
+
+# Name for output files
+set outputname      MD
+
+#Input files for structure (psf) and coordinates (pdb)
+structure          ../input/system.psf
+coordinates        ../input/system.pdb
+
+#continue using files from a previous simulation
+set inputname ../equilibration/MDequil
+
+# Input Force Field
+paraTypeCharmm	    on
+parameters          ../input/par_nanotubes.inp
+parameters          ../input/par_water_ions.inp
+
+# Set temperature (K) 
+set temperature    300
+
+# Timestep in fs for integration of equations of motion
+set dt 2.0  ;# typical value 2 fs
+
+# Final Simulation time (trajectory length in multiple of dt)
+set sim_time 100000 ;# 200 ps
+
+# Frequency for output trajectory (multiple of dt)
+set outputdcd 500 ;# 1 ps
+
+# Frequency for output energy and T,p data (multiple of dt)
+set outputfreq 500 ;#  1 ps
+
+# Move all atoms or maintain atoms fixed in the simulation Yes/No?
+# to move all atoms during simulation:  set fix_selected_atoms 0
+# to fix selected atoms: (atoms with PDB beta-column 1 will not move): set fix_selected_atoms 1
+
+set fix_selected_atoms 1
+
+#######################################################################
+## EXTERNAL FORCE USING TCL SCRIPTING                                ##
+## https://www.tcbg.illinois.edu/Research/namd/3.0.1/ug/node50.html  ##
+#######################################################################
+
+tclForces		on
+
+tclForcesScript {
+  #force to be applied in Kcal/mol/A ( 1 Kcal/mol/A = 69.493 pN)
+  set force {0 0 -1}
+  #system size in Z please look at xsc file in inputname previous simulation
+  set cellLengthZ 49.6991097983  ;# The length of the unit cell in the z-direction
+  #region of space to apply force
+  set LowerBoundary 10.0
+  set UpperBoundary 20.0
+  #list of atoms that may feel the force (numbering as in pdb file)
+  #oxygen atoms in this case
+  set watIdList {}
+  for {set i 577} {$i<2160} {incr i 3} {
+    lappend watIdList $i
+    addatom $i
+  }
+  
+  proc calcforces {} {
+    global cellLengthZ LowerBoundary UpperBoundary force watIdList
+    loadcoords coorList
+    
+    foreach i $watIdList {
+    
+      #Read z coordinate of atom in the list and apply PBC
+      set z [lindex $coorList($i) 2]
+      set z [expr $z-round($z/$cellLengthZ)*$cellLengthZ]  ;# Translate this coordinate into its corresponding value in the original unit cell
+      
+      # Now check if the atom is in the region with the force
+      if {$z<$UpperBoundary && $z>$LowerBoundary} { 
+        # may the force be with you
+        addforce $i $force 
+      }
+    }
+  }
+}
+
+#--------------------------------------------------------------------------------------------------
+
+#############################################################
+## STANDARD SETTINGS: Revise only if needed                ##
+#############################################################                               
+
+#read data previous run
+binCoordinates     $inputname.restart.coor ;# read coordinates
+binvelocities      $inputname.restart.vel  ;# read velocities
+extendedSystem	   $inputname.restart.xsc  ;# read simulation box
+
+wrapWater           on
+wrapAll             on
+
+## Electrostatics and force field parameters               
+
+# Force-Field Parameters
+exclude             scaled1-4
+1-4scaling          1.0
+cutoff              12.
+switching           on
+switchdist          10.
+pairlistdist        14
+
+# PME (for full-system periodic electrostatics)
+# recommended more than 1 angs per grid
+PME                 yes
+PMEGridSpacing      1.0
+
+## INTEGRATION ALGORITHMS AND THERMODYNAMIC ENSEMBLE     
+
+# Integrator Parameters
+firsttimestep       0
+timestep            $dt
+
+# Use rigid bonds with H depending on dt
+if { $dt > 1 } {
+rigidBonds          all 
+}
+
+# multiple time step
+nonbondedFreq       1   ;# 2fs/step
+fullElectFrequency  2  ;# 4fs/step
+stepspercycle       10
+
+# No initial motion of center of mass 
+COMmotion no
+
+# No external forces so center of mass does not move
+# (supress spurious motion due to PME inaccuracies)
+# This can be employed only when all atoms in system are allowed to move
+# 
+if { $fix_selected_atoms == 0 } {
+zeroMomentum yes
+} else {
+# Fixed Atoms Constraint (set PDB beta-column to 1)
+# If no fixed atoms are present you can comment all fixedAtoms commands
+
+fixedAtoms          on
+fixedAtomsFile     ../input/system.pdb
+fixedAtomsCol       B
+}
+
+# Thermostat control
+
+langevin            on    ;# langevin thermostat
+langevinDamping     1     ;# damping coefficient (gamma) of 1/ps
+langevinTemp        $temperature
+langevinHydrogen    off    ;# don't couple langevin bath to hydrogens
+
+## OUTPUT DATA                                
+#filename for data output
+outputName          $outputname
+
+# trajectory output
+dcdfreq             $outputdcd 
+
+# cell size energy and pressure output
+xstFreq             $outputfreq 
+outputEnergies      $outputfreq 
+outputPressure      $outputfreq 
+
+# restart files for continuation of the simulation (10 times less frequent than general output)
+restartfreq         [expr $outputfreq * 10]
+
+#############################################################
+## EXECUTION SCRIPT                                        ##
+#############################################################
+
+# MD simulation run
+run $sim_time
+
+
+
+
