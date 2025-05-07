@@ -10,6 +10,7 @@ Comparison with theory requires to know number of degrees of freedom (see .log f
 - count_CO2.py: Example of MDAnalysis program counting the number of CO2 molecules inside a cavity. It is a good example of a case showing how to count the number of molecules or atoms verifying a given condition.
 
 - water_inside_CNT.py: Counts number of water molecules inside a CNT. Another example of counting things.
+- Calculate_applied_force.py: Calculates the applied force and pressure difference for NAMD nonequilibrium simulations with an external TCL force 
 
 A summary about analysis in MD Simulations can be found [here](https://saco.csic.es/s/yaZBGnDpaPERYsp)
 
