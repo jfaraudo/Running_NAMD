@@ -3,7 +3,7 @@ import MDAnalysis as mda
 import matplotlib.pyplot as plt
 
 #Load trajectory
-simulacio = mda.Universe('../input/system.psf','MDequil.dcd')
+simulacio = mda.Universe('mystructure.psf','mysimulation.dcd')
 
 #Output Data
 fitxer= open('Waterinside.dat', 'w')
