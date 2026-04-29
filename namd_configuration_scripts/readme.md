@@ -12,7 +12,7 @@ Also recommended:
 practical considerations about running MD simulations:
 https://computecanada.github.io/molmodsim-md-theory-lesson-novice/
 
-Introduction to the microscopic interpretation of temperature and thermostats [here](https://saco.csic.es/s/tcn83zymYAAMCwK).
+Introduction to the microscopic interpretation of temperature and thermostats and meaning of NVE,NVT,NpT [here](https://saco.csic.es/s/tcn83zymYAAMCwK).
 
 
 
