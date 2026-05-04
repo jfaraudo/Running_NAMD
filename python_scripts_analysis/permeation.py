@@ -3,6 +3,7 @@
 
 import MDAnalysis as mda
 import numpy as np
+import matplotlib.pyplot as plt
 
 # --- region of crossing ---
 upper_end = 6.754
@@ -41,6 +42,10 @@ num2 = 0  # -z direction count
 
 print("Computing permeation events... (please wait)")
 
+time=[]
+permeation_pos=[]
+permeation_neg=[]
+
 with open(output_file, "w") as f:
     f.write("# frame +z -z \n")
 
@@ -71,6 +76,10 @@ with open(output_file, "w") as f:
 
             labels[i] = new_label
 
+        # accumulate data to plot
+        time.append(ts.time)
+        permeation_pos.append(num1)
+        permeation_neg.append(num2)
         # Save data to file
         f.write(f"{round(ts.time)} {num1} {num2}\n")
 
@@ -83,3 +92,21 @@ else:
     print(f"The specified first frame ({skip_frame}) is larger than the total number of frames.")
 
 print("Time evolution saved in a .dat file")
+
+#Plot
+plt.plot(time, permeation_pos, label='Permeation z>0')
+plt.plot(time, permeation_neg, label='Permeation z<0')
+plt.xlabel('Time (ps)')
+plt.ylabel('Number of Water molecules')
+plt.title('Permeation of Water molecules')
+plt.legend()
+plt.show()
+
+#plot overall permeation (one direction minos opposite direction)
+overall= [permeation_pos - permeation_neg for permeation_pos, permeation_neg in zip(permeation_pos, permeation_neg)]
+plt.plot(time, overall, label='Overall permeation')
+plt.xlabel('Time (ps)')
+plt.ylabel('Number of Water molecules')
+plt.title('Permeation of Water molecules')
+plt.legend()
+plt.show()
